@@ -109,3 +109,129 @@ Ushbu diplom ishida Xorazm shevalarini raqamlashtirishning amaliy tajribasidan k
 **Uchinchi bosqich - morfologik tahlil va tarjima mexanizmini yaratish.** Sheva soʻzlarini adabiy oʻzbek tiliga tarjima qilish uchun ildiz soʻz va qoʻshimchalarni ajratuvchi morfologik tahlilchi - lemmizator - ishlab chiqilgan. Feʼl ildizlari va sheva qoʻshimchalari alohida lugʻat jadvallari sifatida saqlanib, tarjima jarayonida ular ketma-ket qoʻllaniladi.
 
 **Toʻrtinchi bosqich - foydalanuvchi interfeysi.** Raqamlashtirilgan lugʻat materiallariga qulay kirish imkonini beruvchi interaktiv tarjimon dasturi yaratilgan. Ushbu dastur soʻz qidirish, morfologik tahlil qilish va sheva matnini adabiy tilga tarjima qilish funksiyalarini oʻz ichiga oladi.
+
+
+## 2.2. Sheva manbalaridan lug'at ma'lumotlarini to'plash va tizimlashtirish
+
+### 2.2.1. Manba materiallarining tavsifi
+
+Sheva lug'atini raqamli tarjimon dasturiga aylantirishning dastlabki va eng muhim bosqichi — manba materiallarini to'plash va ularni tizimli qayta ishlashdir. Ushbu diplom ishida asosiy manba sifatida Norbayeva, Sa'dullayeva va Atabayeva tomonidan 2024-yilda nashr etilgan "Xorazm shevalari lug'ati" (1-jild) tanlangan. Ushbu tanlovning asosiy sababi shundaki, mazkur lug'at Xorazm shevalarini lotin yozuviga asoslangan xalqaro transkripsiya tizimida qayd etgan, hududiy belgilarni (qaysi tumanda qo'llanishi) izchil ko'rsatgan va 2024-yil holatiga ko'ra eng yangi ilmiy manbalar qatoriga kiradi.
+
+Biroq bitta manba bilan cheklanish lug'at hajmining etarlicha keng bo'lmasligiga sabab bo'lardi. Shu sababli qo'shimcha manbalar ham jalb qilingan:
+
+**Asosiy manba** — "Xorazm shevalari lug'ati" (Norbayeva Sh., Sa'dullayeva N., Atabayeva M., 2024). Ushbu lug'at diakritik belgilar yordamida fonetik jihatdan aniq ifodalangan sheva so'zlarini, ularning adabiy tildagi muqobillarini va qo'llanish hududlarini o'z ichiga oladi. Lug'atning sahifalari skanerdan o'tkazilib, OCR (optik belgilarni tanish) texnologiyasi yordamida matn sifatida ajratib olingan.
+
+**Qo'shimcha manba 1** — Xorazm shevasi leksikasini o'z ichiga olgan Excel formatidagi jadval. Ushbu jadval oldingi yillarda olib borilgan dialektologik tadqiqotlar va ekspeditsiyalar asosida to'plangan materiallardan iborat bo'lib, taxminan 1340 ta yozuvni o'z ichiga oladi. Lotin yozuvida tuzilgan bu jadval asosiy manbadan farqli diakritik tizimda bo'lgani sababli, uni birlashtirish jarayonida maxsus normalizatsiya talab qilingan.
+
+**Qo'shimcha manba 2** — dasturchi S. Ernazarov tomonidan yaratilgan "Xorazmcha" mobil ilovasining lug'at ma'lumotlari. Ushbu ilova (xorazmcha.uz) o'zbek dialektologiyasida sheva lug'atini raqamli ilovaga aylantirgan birinchi tajribalardan biri sifatida ahamiyatlidir. Biroq ilovadagi ma'lumotlar kirill yozuvida bo'lgani va diakritik belgilardan foydalanilmagani sababli, ushbu manba ham lotin yozuviga o'tkazilish va normalizatsiya qilinishni talab qilgan.
+
+Uchta manbadan olingan ma'lumotlar birlashtirish jarayonida "asosiy manba ustunligi" tamoyiliga rioya qilingan: bitta so'z uchun turli manbalarda turli muqobil berilgan taqdirda, "Xorazm shevalari lug'ati" (2024)dagi talqin mezon sifatida qabul qilingan.
+
+### 2.2.2. OCR yordamida ma'lumot ajratib olish
+
+"Xorazm shevalari lug'ati"ning bosma sahifalaridan matn ajratib olish jarayoni ushbu ishning texnik jihatdan eng murakkab qismi bo'ldi. Bosma lug'atda qo'llanilgan xalqaro transkripsiya belgilari — masalan, *ā*, *ö*, *ü*, *ş*, *ç*, *ğ* kabi diakritik belgilar — standart OCR tizimlari uchun qiyinchilik tug'diradi, chunki bu belgilar oddiy lotin alifbosidan tashqarida joylashadi.
+
+Ushbu muammoni bartaraf etish uchun Hugging Face platformasida joylashgan **LightOnOCR-2-1B** modeli tanlandi. Ushbu model standart Tesseract va boshqa umumiy OCR vositalariga nisbatan ko'p tillilik va noodatiy belgilarni tanishda ustunlik ko'rsatdi. Model Google Colab muhitida Nvidia T4 GPU yordamida ishga tushirildi. Xotira yetarli bo'lmasligi muammolarini oldini olish uchun sahifalar pastroq masshtab parametri bilan qayta ishlandi va har bir sahifadan so'ng CUDA xotirasi tozalandi.
+
+OCR jarayoni quyidagi tartibda amalga oshirildi:
+
+**1-qadam — Tayyorlov.** Lug'at sahifalari yuqori sifatli skaner yordamida raqamli formatga o'tkazildi. Sahifalar PDF yoki PNG formatida saqlandi.
+
+**2-qadam — Model yuklash va ishga tushirish.** LightOnOCR-2-1B modeli Colab muhitiga yuklanib, har bir sahifa alohida qayta ishlandi. Natijalar Markdown formatida saqlandi.
+
+**3-qadam — Natijani tekshirish.** Avtomatik ajratib olingan matn diakritik belgilar va lug'at tuzilishi nuqtai nazaridan qo'lda tekshirildi. Noto'g'ri tanilgan belgilar — masalan, *ā* o'rnida *a*, *ö* o'rnida *o* yozilganda — qo'lda tuzatildi.
+
+**4-qadam — Lug'at yozuvlarini ajratish.** Har bir sahifadagi matndan alohida lug'at yozuvlari ajratib olindi. "Xorazm shevalari lug'ati"da har bir yozuv quyidagi tuzilmada keltirilgan:
+
+```
+sheva_so'zi [adabiy_talaffuz] – adabiy_muqobil; izoh (hudud).
+Misol jumla.
+```
+
+Ushbu tuzilmadan foydalanib, Python tilida maxsus ajratish skripti yozildi. Skript to'rtburchak qavslar `[]` ichidagi adabiy talaffuzni, tire `–` dan keyingi adabiy muqobilni va qavs ichidagi hududiy belgilarni (Urg., Xv., Shvt. va h.k.) alohida ustunlarga ajratdi.
+
+### 2.2.3. Ma'lumotlarni tozalash va normalizatsiya
+
+Xom OCR natijalaridan foydalanish mumkin bo'lgan lug'at yozuvlarini olish uchun bir necha bosqichli tozalash va normalizatsiya jarayoni o'tkazildi. Bu jarayon dasturiy vosita sifatida Python va uning `csv` kutubxonasidan foydalangan holda amalga oshirildi.
+
+**Diakritik belgilarni normalizatsiya qilish.** "Xorazm shevalari lug'ati"da qo'llanilgan transkripsiya tizimidagi belgilar bilan Excel manbadagi belgilar har doim ham mos kelmadi. Masalan, `ä`, `a̋`, `à` kabi variantlar bir xil fonema uchun turli manbalarda turlicha yozilgan. Bu muammoni bartaraf etish uchun `_normalize()` funksiyasi ishlab chiqildi. Ushbu funksiya belgilarning barcha variantlarini yagona standart ko'rinishga keltirdi.
+
+**Bo'sh va takroriy yozuvlarni o'chirish.** Birlashtirish jarayonida bir xil sheva so'zi turli manbalarda uchrab, dublikatlar paydo bo'ldi. `csv_clean.py` skripti orqali barcha yozuvlar alifbo tartibida saralanib, bir xil sheva so'ziga tegishli yozuvlar aniqlanib, kamroq ma'lumotli yozuv o'chirildi.
+
+**Registrni standartlashtirish.** Barcha lug'at muqobillari kichik harfda saqlanishi belgilandi. Bu orqali qidiruvda registr xatolarining ta'siri minimallashtirildi. Lekin so'zning gaplardagi haqiqiy registrini saqlash uchun `_match_case()` funksiyasi ham ishlab chiqildi — u kiritilgan so'zning bosh harfini tanib, muqobilini ham xuddi shu qoida asosida formatlaydi.
+
+**Manba ustunligini ta'minlash.** `merge_dicts.py` skripti orqali uchta manba birlashtirildi. Ushbu skript har bir so'zni avval asosiy manbadan (output.csv) qidiradi; topilmagan taqdirda qo'shimcha manbadan (fromexcel.csv) oladi. Bu yondashuv ilmiy jihatdan eng ishonchli manba — "Xorazm shevalari lug'ati" (2024) — ning ustunligini kafolatlaydi.
+
+Tozalash jarayonlari yakunida lug'at taxminan 3486 ta yozuvni o'z ichiga olgan holda `output_clean.csv` faylida saqlandi. Har bir yozuv ikki asosiy ustundan iborat: `sheva` (Xorazm sheva so'zi) va `adabiy` (adabiy o'zbek tili muqobili).
+
+### 2.2.4. Ma'lumotlarni tizimlashtirish tamoyillari
+
+Lug'at ma'lumotlarini tizimlashtirish — ya'ni turli manbalardan olingan heterojen ma'lumotlarni yagona izchil tuzilmaga keltirish — bu ish doirasidagi eng muhim metodologik qarorlardan birini tashkil etdi.
+
+Tizimlashtirishda quyidagi tamoyillarga rioya qilindi:
+
+**Bitta kalit — bitta yozuv tamoyili.** Lug'atda har bir sheva so'zi (kalit) uchun bitta yozuv saqlanadi. Ko'p ma'noli so'zlar uchun muqobil matnda vergul orqali ajratilgan holda yoziladi: masalan, *äkä* so'zining muqobili `aka, ota` tarzida beriladi.
+
+**Ko'p so'zli iboralar alohida yozuv sifatida.** Xorazm shevalarida uchraydigan ko'p so'zli sheva iboralari — masalan, *sırt berdi*, *äyqaş-uyqaş* — alohida kalit sifatida lug'atga kiritildi. Tarjima mexanizmida ko'p so'zli iboralar birinchi navbatda qidiriladi, shundan keyingina alohida so'zlar uchun qidirish amalga oshiriladi.
+
+**Manbaga ishora saqlanishi.** Har bir yozuvning qaysi manbadan olinganligini bilish texnik takomillashtirish va kelajakda audit qilish uchun muhim. Shu sababli birlashtirish jarayonida har bir yozuvga manba belgisi (`source` ustuni) qo'shildi: `norbayeva2024`, `fromexcel`, `xorazmcha` kabi qiymatlar bilan.
+
+**Fonetik jihatdan o'xshash variantlarni birlashtirish.** Bir xil so'zning turli imloviy variantlari — masalan, *dîlânmaq* va *dilonmoq* — bir yozuv ostida birlashtirildi. Normalizatsiya funksiyasi bu variantlarni qidiruv jarayonida ham bir xil deb qabul qiladi.
+
+---
+
+## 2.3. Shevaga oid mavjud dasturiy yechimlar va ularning tahlili
+
+### 2.3.1. Kirish: Tahlil zarurati
+
+Yangi dasturiy yechim yaratishdan avval mavjud analoglarni o'rganish va ularning kuchli hamda zaif tomonlarini tahlil qilish metodologik jihatdan muhimdir. Bunday tahlil yangi tizimning nima uchun zarurligini asoslab beradi, mavjud kamchiliklarni bartaraf etish uchun qanday yondashuvlar qo'llanishi mumkinligini belgilaydi va oxirgi mahsulotning uqubat qilingan xususiyatlarini shakllantirishga yordam beradi. Ushbu bo'limda Xorazm shevasi leksikasiga tegishli mavjud dasturiy yechimlar — veb-ilovalar, mobil dasturlar va lug'at saytlari — ko'rib chiqiladi va ulardagi asosiy cheklovlar baholanadi.
+
+### 2.3.2. "Xorazmcha" mobil ilovasi tahlili
+
+Hozirda mavjud bo'lgan Xorazm shevasi bilan bevosita bog'liq dasturiy yechimlar ichida dasturchi S. Ernazarov tomonidan ishlab chiqilgan **"Xorazmcha"** mobil ilovasi eng diqqatga sazovor hisoblanadi. Ushbu ilova App Store va Google Play do'konlarida bepul tarqatilgan bo'lib, Xorazm shevasi so'zlarini qidirish va adabiy muqobilini ko'rish imkonini beradi.
+
+Ilovaning kuchli tomonlari quyidagilardan iborat: birinchidan, foydalanuvchilarga oflayn rejimda, internetga ulanmasdan ishlash imkonini berishi; ikkinchidan, kirill va lotin yozuvlarini qo'llab-quvvatlashi; uchinchidan, qidiruv funksiyasining mavjudligi; to'rtinchidan, ilovaga yangi so'zlarni qo'shish imkonini beruvchi administrativ panel mavjudligi.
+
+Biroq ilova bir qator muhim cheklovlardan xoli emas. Eng asosiy kamchilik shundaki, ilovada diakritik belgilardan foydalanilmagan. Natijada bir-biridan fonetik jihatdan farq qiluvchi so'zlar bitta yozuv ostida birlashtirib yuborilgan yoki talaffuzi noaniq holda qoldirilgan. Masalan, *ā* (cho'ziq a) va *a* (qisqa a) farqini ilovadagi yozuvlardan aniqlash mumkin emas. Bu holat leksikografik aniqlik nuqtai nazaridan jiddiy kamchilik hisoblanadi.
+
+Bundan tashqari, ilova so'z birikmalarini yaxlit birlik sifatida qidira olmaydi — faqat alohida so'zlar qidiriladi. Morfologik tahlil funksiyasi yo'q: agar foydalanuvchi so'zning qo'shimcha bilan kelgan shaklini — masalan, *dîlânmaqda* — kiritsa, ilova natija topa olmaydi. Shuningdek, geografik hududiy belgilar ham ko'rsatilmagan, ya'ni so'zning Xorazm viloyatining qaysi tumanida qo'llanishi ilovadan bilib bo'lmaydi.
+
+Yakunlovchi baho sifatida aytish mumkinki, "Xorazmcha" ilovasi Xorazm shevalarini raqamli sohaga olib kirishda muhim birinchi qadam bo'ldi. Biroq u lingvistik aniqlik va texnik funktsionallik nuqtai nazaridan to'liq yechim bo'la olmaydi.
+
+### 2.3.3. GitHub'dagi "Translate-Uzbek-Khorazm" loyihasi tahlili
+
+IlhomJabborov tomonidan GitHub'da joylashtirilgan **"Translate-Uzbek-Khorazm"** ochiq kodli loyiha Xorazm shevasidan o'zbek adabiy tiliga va aksincha tarjima qiluvchi veb-sayt sifatida taqdim etilgan. Loyiha GitHub'dagi tavsifga ko'ra, "istalgan o'zbekcha yoki xorazmcha so'zni yozsangiz shu so'zni adabiy tilda yoki xorazm shevasida chiqarib beradi" va "hozirgi paytda 100 dan ortiq so'z kiritilgan".
+
+Ushbu loyihaning asosiy afzalligi — ochiq kod bo'lganligi, ya'ni manba kodi bepul foydalanish uchun mavjud. Bu boshqa ishlab chiquvchilarga loyihadan ilhomlana olish yoki kod qismlaridan qayta foydalanish imkonini beradi.
+
+Biroq loyihaning jiddiy cheklovi uning lug'at hajmi bilan bog'liq. 100 dan ortiq so'z Xorazm shevasining boy leksikasini ifodalash uchun mutlaqo yetarli emas — bu hajm ushbu diplom ishidagi 3486 ta yozuvdan taxminan 35 marta kam. Buning ustiga, loyihada morfologik tahlil, ko'p so'zli iboralar qidirish yoki suffiksni ajratish kabi funksiyalar ko'zda tutilmagan. Loyiha holatini ko'rsatuvchi ma'lumotlar cheklanganligi sababli, so'zlar qanday mezon asosida tanlanganini va ularning qanchalik darajada tekshirilganini baholash ham qiyin.
+
+### 2.3.4. Umumiy tarjimon tizimlari va ularning shevalarga munosabati
+
+O'zbek tili uchun mo'ljallangan umumiy tarjimon tizimlar — Google Translate, Yandex.Translate va boshqalar — Xorazm shevasi so'zlarini tarjima qilishda qat'iy cheklovlarga ega. Bu tizimlar o'zbek adabiy tilida yozilgan matnlarni boshqa tillarga tarjima qilish uchun optimallashtirilgan va sheva leksikasini deyarli taniy olmaydi.
+
+Masalan, *äldin* so'zini (Xorazm shevasida "oldin" maʼnosida qo'llanadigan) Google Translate'ga kiritilganda tizim natija topa olmaydi yoki noto'g'ri tarjima beradi. Xuddi shunday, *ällî* (ellik) yoki *dîlânmaq* (yig'lamoq maʼnosidagi feʼl) kabi so'zlar ham bu tizimlar uchun "noma'lum" sifatida baholanadi. Bu holat tabiiy — chunki umumiy tarjimon tizimlar keng ko'lamli adabiy matnlar asosida o'qitilgan, sheva materiallarini o'z ichiga olmaydi.
+
+Elektron lug'atlar va tarjima ilovalari tahlili bo'yicha o'zbek va turk tillari misolida olib borilgan tadqiqotlar shuni ko'rsatadiki, "kitob" lug'atlaridan elektron lug'atlarga o'tish nafaqat qulaylikni oshiradi, balki yangilash, to'ldirish va qidiruv imkoniyatlarini ham sezilarli darajada kengaytiradi. Biroq bu tadqiqotlarda sheva lug'atlarini elektron shaklga o'tkazish masalasi alohida ko'rib chiqilmagan — bu sohada o'zbek tilshunosligida katta bo'shliq mavjud.
+
+### 2.3.5. Mavjud yechimlarning umumiy kamchiliklari
+
+Tahlil qilingan barcha mavjud dasturiy yechimlarning umumiy kamchiliklarini quyidagicha jamlash mumkin:
+
+**Lug'at hajmining chegaralanganligi.** Mavjud ilovalar Xorazm shevasi leksikasining faqat kichik bir qismini qamrab olgan. Sheva so'zlarining to'liq qamrovini ta'minlash uchun bir necha manbadan ma'lumot to'plash, tozalash va birlashtirish zarurligi ko'zga tashlanadi.
+
+**Morfologik tahlilning yo'qligi.** Hech bir mavjud yechim sheva so'zlarini morfologik jihatdan tahlil qila olmaydi. Ya'ni, foydalanuvchi sheva so'zini qo'shimcha bilan birga kiritsa — *dîlânmaqda*, *ällîdan*, *äkäm* kabi — tizimlar natija bermaydi. Shu sababli ildiz so'zni ajratuvchi va qo'shimchalarni alohida tahlil qiluvchi mexanizm yaratish zaruriyati ayon bo'ladi.
+
+**Diakritik belgilar bilan ishlashdagi muammolar.** Xorazm shevasi tovush tizimini to'liq ifodalash uchun transkripsion diakritik belgilar zarur. Mavjud ilovalar bu belgilarni ko'pincha e'tiborsiz qoldiradi, bu esa fonetik aniqlik va leksikografik ishonchlilikka zarar yetkazadi.
+
+**Matn darajasida tarjimaning yo'qligi.** Mavjud yechimlar faqat alohida so'zlarni qidirish imkonini beradi. Bir nechta sheva so'zidan iborat butun gapni tarjima qilish — so'zma-so'z hatto bo'lsa-da — hech bir mavjud tizimda ko'zda tutilmagan.
+
+**Veb-sayt ko'rinishida ishlashning cheklanganligi.** Mavjud yechimlarning aksariyati mobil ilovalar sifatida ishlab chiqilgan. Kompyuter brauzeri orqali qulay foydalanish imkoniyatini ta'minlovchi maxsus veb-interfeys esa deyarli yo'q.
+
+### 2.3.6. Tahlil xulosasi va yangi yechim zarurati
+
+Mavjud dasturiy yechimlarning ko'rib chiqilishi shuni ko'rsatadiki, Xorazm shevasi manbalarini to'liq qamrab olgan, morfologik tahlilni amalga oshira oladigan, diakritik belgilar bilan to'g'ri ishlaydigan va foydalanuvchi uchun qulay veb-interfeys taqdim etadigan yechim hali yaratilmagan.
+
+Ushbu diplom ishining asosiy maqsadi — xuddi ana shu bo'shliqni to'ldirish. III bobda batafsil tavsiflanadigan tarjimon dastur quyidagi asosiy xususiyatlar bilan mavjud analoglardan tubdan farqlanadi: 3486 ta yozuvli keng lug'at bazasi; besh bosqichli tarjima algoritmi (ko'p so'zli iboralar, to'g'ri moslik, feʼl morfologik tahlili, ot suffikslari ajratish, o'zgartirilmay qoldirish); barcha belgilar variantlarini bir xil deb qaraydigan normalizatsiya tizimi; va Cloudflare – Nginx – Gunicorn – Flask zanjiri orqali tarqatilgan ishonchli veb-platforma.
+
+Shu tarzda ushbu ish nafaqat mustaqil tadqiqot mahsuli, balki Xorazm shevalarini raqamli texnologiyalar bilan boyitishning keyingi bosqichi uchun amaliy poydevor hamdir.
