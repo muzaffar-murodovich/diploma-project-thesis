@@ -8,7 +8,7 @@ Oʻzbek tilining boy va rang-barang dialektologik tizimida Xorazm shevalari oʻz
 
 Biroq, urbanizatsiya, ommaviy axborot vositalarining keng tarqalishi, aholining migratsiyasi va umumiy taʼlim tizimining adabiy tilni ustun darajaga olib chiqishi natijasida shevalar tildagi oʻrnini asta-sekin yoʻqotmoqda. Yoshlar nutqida sheva belgilari kamayib, koʻplab original sheva soʻzlari isteʼmoldan chiqib bormoqda. Tilshunoslar bu jarayonni "sheva inqirozi" sifatida baholamoqda. Shu sababli sheva merosini ilmiy asosda qayd etish, raqamli formatda saqlash va keng jamoatchilikka yetkazish bugungi kunning kechiktirib boʻlmaydigan masalalaridan biriga aylangan.
 
-Hozirgi vaqtda Xorazm shevasiga oid mavjud raqamli yechimlar — "Xorazmcha" mobil ilovasi va GitHub'dagi "Translate-Uzbek-Khorazm" loyihasi — muhim birinchi qadamlar boʻlsa-da, ular lugʻat hajmining kichikligi, morfologik tahlilning yoʻqligi, fonetik diakritik belgilar bilan ishlay olmasligi va matn darajasida tarjimaning cheklanganligi singari jiddiy kamchiliklardan xoli emas. 2024-yilda Urganch davlat universiteti olimlari tomonidan nashr etilgan "Xorazm shevalari lugʻati" (1-jild) ilmiy jihatdan ishonchli, xalqaro transkripsiyaga asoslangan keng qamrovli manba boʻlib, uni raqamli formatga oʻtkazish va veb-platforma orqali foydalanuvchilarga yetkazish dolzarb vazifaga aylangan.
+Hozirgi vaqtda Xorazm shevasiga oid mavjud raqamli yechimlar — "Xorazmcha" mobil ilovasi va GitHub'dagi "Translate-Uzbek-Khorazm" loyihasi — muhim birinchi qadamlar boʻlsa-da, ular lugʻat hajmining kichikligi, morfologik tahlilning yoʻqligi va matn darajasida tarjimaning cheklanganligi singari jiddiy kamchiliklardan xoli emas. 2024-yilda Urganch davlat universiteti olimlari tomonidan nashr etilgan "Xorazm shevalari lugʻati" (1-jild) ilmiy jihatdan ishonchli, xalqaro transkripsiyaga asoslangan keng qamrovli manba boʻlib, uni raqamli formatga oʻtkazish va veb-platforma orqali foydalanuvchilarga yetkazish dolzarb vazifaga aylangan.
 
 ## Muammoning qoʻyilishi
 
@@ -40,10 +40,10 @@ Ushbu maqsadga erishish uchun quyidagi vazifalar belgilandi:
 
 Ushbu bitiruv malakaviy ishining ilmiy yangiligi quyidagilardan iborat:
 
-- birinchi marta 2024-yilda nashr etilgan "Xorazm shevalari lugʻati" (1-jild) bosma manbasi OCR texnologiyasi (LightOnOCR-2-1B modeli) yordamida toʻliq raqamlashtirildi va xalqaro transkripsiya belgilari saqlangan holda CSV bazasiga aylantirildi;
+- birinchi marta 2024-yilda nashr etilgan "Xorazm shevalari lugʻati" (1-jild) bosma manbasi OCR texnologiyasi (LightOnOCR-2-1B modeli) yordamida toʻliq raqamlashtirildi va undagi xalqaro transkripsiya (diakritik) belgilari amaliy foydalanish qulayligi uchun sodda oʻzbek lotin yozuviga oʻtkazilib, CSV bazasiga aylantirildi;
 - Xorazm shevasi uchun maxsus loyihalangan **besh bosqichli tarjima algoritmi** ishlab chiqildi: koʻp soʻzli iboralar qidirish, toʻgʻridan-toʻgʻri moslik, feʼl morfologik tahlili, ot suffikslarini ajratish va topilmagan soʻzlarni saqlab qolish;
 - shevadagi feʼllarni adabiy tilga tarjima qilish uchun maxsus `VERB_ROOT_MAP` va `VERB_SUFFIX_MAP` tuzilmalari yaratildi;
-- diakritik belgilarning turli yozuv variantlarini bir xil deb qabul qiluvchi normalizatsiya tizimi ishlab chiqildi;
+- turli manbalardagi (kirill yozuvi hamda diakritik belgili lotin yozuvi) yozuvlarni yagona sodda oʻzbek lotin koʻrinishiga keltiruvchi transliteratsiya va normalizatsiya yondashuvi ishlab chiqildi;
 - mavjud analoglardan farqli ravishda, lugʻat hajmi **3486 ta yozuvgacha** kengaytirilib, matn darajasidagi tarjimani amalga oshira oluvchi yagona veb-yechim taqdim etildi.
 
 ## Amaliy ahamiyati

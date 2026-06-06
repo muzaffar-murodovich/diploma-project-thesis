@@ -110,8 +110,8 @@ def _load_dictionary(path: str) -> dict:
     with open(path, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            key = _normalize(row['sheva'].strip().lower())
-            val = row['adabiy'].strip().lower()
+            key = _normalize(row['Title'].strip().lower())
+            val = row['Meaning'].strip().lower()
             if key and val:
                 result[key] = val
     return result

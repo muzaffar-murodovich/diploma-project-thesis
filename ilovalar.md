@@ -2,36 +2,36 @@
 
 ## 1-ILOVA. Lug'at namunasi (output_clean.csv fayli ko'rinishi)
 
-Quyidagi jadvalda yaratilgan birlashtirilgan lug'at fayli (`output_clean.csv`) tarkibidan ayrim namunaviy yozuvlar keltirilgan. Yakuniy lug'at 3486 ta yozuvni o'z ichiga oladi.
+Quyidagi jadvalda yaratilgan birlashtirilgan lug'at fayli (`output_clean.csv`) tarkibidan ayrim namunaviy yozuvlar keltirilgan. Fayl ikki ustundan iborat: `Title` (sheva so'zi) va `Meaning` (adabiy muqobili). Yozuvlar sodda o'zbek lotin yozuvida saqlanadi — manba lug'atdagi diakritik belgilar (ä, ö, ü, ş, ç, ğ va h.k.) amaliy foydalanish qulayligi uchun oddiy lotin harflariga o'tkazilgan. Yakuniy lug'at 3486 ta yozuvni o'z ichiga oladi.
 
-| sheva       | adabiy                            |
-| ----------- | --------------------------------- |
-| äldin       | oldin                             |
-| ällî        | ellik                             |
-| äkä         | aka, ota                          |
-| äyqaş-uyqaş | tartibsiz, chuvalashgan           |
-| dîlânmaq    | yig'lamoq                         |
-| dūzüvlı     | tuzuk, ishlay oladigan            |
-| sırt berdi  | yuz o'girdi                       |
-| do'ddi      | beso'naqay                        |
-| doldirmaq   | to'ldirmoq                        |
-| dolîşmaq    | yetilmoq, husnga kirmoq           |
-| do:n        | to'n, chopon                      |
-| ādik        | etik                              |
-| ādiyal      | ko'rpa                            |
-| ānqav       | esi past kishi                    |
-| bazār       | bozor                             |
-| käl         | kel                               |
-| tämir       | temir                             |
-| yip         | ip                                |
-| yilan       | ilon                              |
-| gal         | kel                               |
+| Title           | Meaning                          |
+| --------------- | -------------------------------- |
+| adan            | chiqindi suv ketadigan chuqurcha |
+| adik            | etik                             |
+| adil            | odil                             |
+| agizak          | egizak                           |
+| ajab            | xoʻp                             |
+| ajina           | jin                              |
+| ajiz            | zaif                             |
+| ajji            | achchiq                          |
+| ajoyibxona      | muzey                            |
+| ak              | ohak                             |
+| aka             | ota                              |
+| aklamoq         | oqlamoq                          |
+| akmoq           | ekmoq                            |
+| aks             | oʻjar                            |
+| al              | qoʻl                             |
+| alli            | ellik                            |
+| alpatak-elpatak | birdan shoshib qolish            |
+| amjak           | emchak                           |
+| ana             | buvi                             |
+| anaka           | enaga                            |
 
 ---
 
-## 2-ILOVA. Translit jadvali (kirill ↔ lotin transliteratsiya)
+## 2-ILOVA. Translit jadvali (kirill → lotin transliteratsiya)
 
-Lug'atning bir qismi kirill yozuvida edi (xususan, "Xorazmcha" mobil ilovasidan olingan ma'lumotlar). `translator.py` da qo'llanilgan kirill-lotin transliteratsiya jadvali:
+Lug'atning bir qismi kirill yozuvida edi (xususan, "Xorazmcha" mobil ilovasidan olingan ma'lumotlar). `translator.py` va `clean_dictionary.py` da qo'llanilgan kirill-lotin transliteratsiya jadvali:
 
 | Kirill | Lotin | Kirill | Lotin |
 | ------ | ----- | ------ | ----- |
@@ -53,31 +53,26 @@ Lug'atning bir qismi kirill yozuvida edi (xususan, "Xorazmcha" mobil ilovasidan 
 | О о    | O o   | Ғ ғ    | Gʻ gʻ |
 | П п    | P p   | Ҳ ҳ    | H h   |
 
+Eslatma: ayrim manbalarda uchragan qo'shimcha kirill harflari ham hisobga olingan: `ы → i`, `ң → ng`.
+
 ---
 
 ## 3-ILOVA. Fe'l ildizlari xaritasi (VERB_ROOT_MAP) namunasi
 
-`translator.py` faylida saqlangan sheva fe'l ildizlari va ularning adabiy o'zbek tilidagi muqobillari. Quyida jami 82 ta yozuvdan namunaviy qismi keltirilgan:
+`translator.py` faylidagi `VERB_ROOT_MAP` tuzilmasida saqlangan sheva fe'l ildizlari va ularning adabiy o'zbek tilidagi muqobillari. Ildizlar sodda lotin yozuvida saqlanadi. Quyida jami 82 dan ortiq yozuvdan namunaviy qismi keltirilgan:
 
-| Sheva ildizi | Adabiy ildizi | Misol (sheva)  | Misol (adabiy) |
-| ------------ | ------------- | -------------- | -------------- |
-| gal          | kel           | galaman        | kelmoqman      |
-| gat          | ket           | gataman        | ketmoqman      |
-| bar          | bor           | barmaq         | bormoq         |
-| ayr          | ayir          | ayirmaq        | ayirmoq        |
-| arala        | yarash        | aralamaq       | yarashtirmoq   |
-| art          | tozala        | aritmoq        | tozalamoq      |
-| dad          | tati          | dadimaq        | tatimoq        |
-| dog          | tug'          | dogmaq         | tug'moq        |
-| doq          | sovqot        | doqmaq         | sovqotmoq      |
-| dun          | tin           | dunmaq         | tinmoq         |
-| dura         | urchi         | duramaq        | urchimoq       |
-| dushiq       | duch kel      | dushiqmaq      | duch kelmoq    |
-| dön          | ayni          | dönmak         | aynimoq        |
-| döröt        | yarat         | dörötmak       | yaratmoq       |
-| döv          | tuy           | dövmak         | tuymoq         |
-| gül          | kul           | gülisha        | kulishmoq      |
-| göy          | kuy           | göymak         | kuymoq         |
+| Sheva ildizi | Adabiy ildizi | Misol (sheva) | Misol (adabiy) |
+| ------------ | ------------- | ------------- | -------------- |
+| gal          | kel           | galaman       | kelmoqman      |
+| gat          | ket           | gataman       | ketmoqman      |
+| bar          | bor           | barmaq        | bormoq         |
+| dog          | tugʻ          | dogmaq        | tugʻmoq        |
+| doq          | sovqot        | doqmaq        | sovqotmoq      |
+| dun          | tin           | dunmaq        | tinmoq         |
+| dunt         | tinit         | duntmaq       | tinitmoq       |
+| dura         | urchi         | duramaq       | urchimoq       |
+| dushiq       | duch kel      | dushiqmaq     | duch kelmoq    |
+| art          | tozala        | artmaq        | tozalamoq      |
 
 ---
 
@@ -98,10 +93,10 @@ Sheva fe'l qo'shimchalari va ularning adabiy tildagi muqobillari. Jami 30 ta qo'
 | -dim           | -dim            | o'tgan z., 1-shaxs   |
 | -ding          | -ding           | o'tgan z., 2-shaxs   |
 | -di            | -di             | o'tgan z., 3-shaxs   |
-| -g'in / -gin   | -gin            | buyruq mayli         |
+| -gʻin / -gin   | -gin            | buyruq mayli         |
 | -sang          | -sang           | shart mayli          |
 | -sa            | -sa             | shart mayli          |
-| -g'an / -gan   | -gan            | sifatdosh            |
+| -gʻan / -gan   | -gan            | sifatdosh            |
 | -magan         | -magan          | inkor sifatdosh      |
 | -may           | -may            | ravishdosh           |
 | -ib            | -ib             | ravishdosh           |
@@ -112,52 +107,53 @@ Sheva fe'l qo'shimchalari va ularning adabiy tildagi muqobillari. Jami 30 ta qo'
 
 ## 5-ILOVA. Tarjima namunalari (tizim sinovi natijalari)
 
-Quyida ilova tomonidan amalga oshirilgan tarjima namunalari keltirilgan:
+Quyida ilova tomonidan amalga oshirilgan tarjima namunalari keltirilgan. Barcha kirish so'zlari foydalanuvchi yozadigan sodda lotin yozuvida berilgan.
 
 **5.1. Alohida so'zlar (2-bosqich — to'g'ridan-to'g'ri moslik):**
 
-| Kiritilgan (sheva) | Natija (adabiy)         |
-| ------------------ | ----------------------- |
-| äldin              | oldin                   |
-| ällî               | ellik                   |
-| äkä                | aka                     |
-| bazār              | bozor                   |
-| ādik               | etik                    |
+| Kiritilgan (sheva) | Natija (adabiy) |
+| ------------------ | --------------- |
+| adik               | etik            |
+| alli               | ellik           |
+| aka                | ota             |
+| ajiz               | zaif            |
+| akmoq              | ekmoq           |
 
 **5.2. Fe'l shakllari (3-bosqich — morfologik tahlil):**
 
-| Kiritilgan (sheva) | Natija (adabiy) | Tahlil                |
-| ------------------ | --------------- | --------------------- |
-| galaman            | kelmoqman       | gal + aman            |
-| gataman            | ketmoqman       | gat + aman            |
-| barmaq             | bormoq          | bar + maq             |
-| dîlânmaqda         | yig'lamoqda     | dîlân + maqda         |
-| dögmak             | tuymoq          | dög + mak             |
+| Kiritilgan (sheva) | Natija (adabiy) | Tahlil      |
+| ------------------ | --------------- | ----------- |
+| galaman            | kelmoqman       | gal + aman  |
+| gataman            | ketmoqman       | gat + aman  |
+| barmaq             | bormoq          | bar + maq   |
+| dogmaq             | tugʻmoq         | dog + maq   |
+| dunmaq             | tinmoq          | dun + maq   |
 
 **5.3. Ko'p so'zli iboralar (1-bosqich):**
 
-| Kiritilgan (sheva) | Natija (adabiy)           |
-| ------------------ | ------------------------- |
-| sırt berdi         | yuz o'girdi               |
-| äyqaş-uyqaş        | tartibsiz, chuvalashgan   |
-| duch kelmoq        | duch kelmoq               |
+| Kiritilgan (sheva) | Natija (adabiy)    |
+| ------------------ | ------------------ |
+| andin soʻng        | undan keyin        |
+| bari gal           | bu yoqqa kel       |
+| bir yutum suv      | bir qultum suv     |
+| bodom barmoq       | koʻrsatgich barmoq |
 
 **5.4. Gap darajasidagi tarjima:**
 
-- **Kirish:** *Aldin sän dim arriq äduj, indi doliṣib xüṣṣi qiz bolībsan.*
-- **Chiqish:** *Oldin sen juda oriq eding, endi yetilib xuddi qiz bo'libsan.*
+*(Bu yerga ishlab chiqarish muhitida joylashtirilgan ilovadan olingan haqiqiy tarjima namunasi — kirish matni va dastur bergan natija — joylashtiriladi. Namunani ilovaning o'zida sinab ko'rib, aynan nusxa olish tavsiya etiladi, shunda komissiyaga ko'rsatilgan natija haqiqiy dastur chiqishi bilan to'liq mos keladi.)*
 
 ---
 
 ## 6-ILOVA. Loyiha fayllarining tuzilishi
 
-Tarjimon dasturining manba kodi quyidagi tuzilmada joylashtirilgan:
+Tarjimon dasturining manba kodi `khorazm-dialect-translator` repozitoriysida quyidagi tuzilmada joylashtirilgan:
 
 ```
-xorazmcha.muzaffar/
+khorazm-dialect-translator/
 ├── app.py                  — Flask ilovasining asosiy fayli
 ├── translator.py           — Tarjima mantig'i va lug'at yuklash
 ├── wsgi.py                 — Gunicorn uchun kirish nuqtasi
+├── clean_dictionary.py     — Lug'atni tozalash va standartlashtirish skripti
 ├── requirements.txt        — Python kutubxonalari ro'yxati
 ├── templates/
 │   └── index.html          — Asosiy Jinja2 shabloni
@@ -165,10 +161,11 @@ xorazmcha.muzaffar/
 │   ├── script.js           — Frontend JavaScript (Fetch API, tugmalar)
 │   └── style.css           — Responsiv CSS (mobil breakpoint 640px)
 ├── data/
-│   ├── output_clean.csv    — Birlashtirilgan lug'at (3486 yozuv)
-│   ├── ocr_natija.txt      — OCR natijalari
-│   ├── csv_clean.py        — Lug'atni tozalash skripti
-│   └── merge_dicts.py      — Manbalarni birlashtirish skripti
+│   ├── output.csv          — Birlashtirilgan xom lug'at (Title/Meaning)
+│   ├── output_clean.csv    — Tozalangan yakuniy lug'at (3486 yozuv)
+│   ├── output_backup.csv   — Zaxira nusxa
+│   ├── merge_dicts.py      — Manbalarni birlashtirish skripti
+│   └── ocr_natija.txt      — OCR natijalari
 ├── deploy/
 │   ├── deploy.sh           — Server o'rnatish skripti
 │   └── *.service           — systemd va Nginx konfiguratsiyalari
