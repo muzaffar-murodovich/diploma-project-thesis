@@ -10,8 +10,8 @@ Lug'at uchun CSV (Comma-Separated Values) formati tanlandi. Bu tanlovning bir ne
 
 Lug'atning asosiy tuzilmasi ikki ustundan iborat:
 
-- **`sheva`** — Xorazm shevasi so'zi yoki iborasi (kalit)
-- **`adabiy`** — adabiy o'zbek tilidagi muqobil yoki izoh (qiymat)
+- **`Title`** — Xorazm shevasi so'zi yoki iborasi (kalit)
+- **`Meaning`** — adabiy o'zbek tilidagi muqobil yoki izoh (qiymat)
 
 Ushbu ikki ustunli sodda tuzilma tizimning ishlash tezligini oshiradi. Dastur yuklanganda barcha lug'at yozuvlari Python lug'ati (dictionary) ko'rinishida xotiraga yuklanadi: sheva so'zi kalit, adabiy muqobili esa qiymat bo'ladi. Keyin tarjima so'ralganda xotiradan qidirish amalga oshiriladi, bu esa ma'lumotlar bazasiga har safar murojaat qilishga nisbatan ancha tezroq ishlaydi.
 
@@ -89,7 +89,7 @@ Statik fayllar — CSS va JavaScript — `static/` papkasida saqlanadi va Jinja2
 
 ### 3.3.1. Umumiy arxitektura
 
-Tarjimon dasturining markaziy komponenti `translator.py` fayli bo'lib, u barcha tarjima mantiqini o'z ichiga oladi. Ushbu fayl Flask ilovasidan `from translator import translate_text` ko'rinishida import qilinadi va har bir tarjima so'rovida `translate_text()` funksiyasi chaqiriladi.
+Tarjimon dasturining markaziy komponenti `translator.py` fayli bo'lib, u barcha tarjima mantiqini o'z ichiga oladi. Ushbu fayl Flask ilovasidan `from translator import translate` ko'rinishida import qilinadi va har bir tarjima so'rovida `translate()` funksiyasi chaqiriladi.
 
 Flask ilova (`app.py`) quyidagi vazifalarni bajaradi:
 
@@ -105,20 +105,24 @@ Flask ning ishlab chiqish serveridan farqli ravishda, ishlab chiqarish muhitida 
 Dastur ishga tushganda lug'at `output_clean.csv` faylidan bir marta yuklanadi va Python lug'ati sifatida xotiraga joylashtiriladi. Bu jarayon `_load_dictionary()` funksiyasi tomonidan bajariladi:
 
 ```python
-def _load_dictionary(path: str) -> dict:
-    result = {}
+single_dict: dict[str, str] = {}   # bir so'zli yozuvlar
+phrase_dict: dict[str, str] = {}   # ko'p so'zli iboralar
+
+def _load_dictionary(path: str) -> None:
     with open(path, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             key = _normalize(row['Title'].strip().lower())
             val = row['Meaning'].strip().lower()
-            if key and val:
-                result[key] = val
-    return result
+            if not key or not val:
+                continue
+            if ' ' in key:          # kalitda bo'sh joy bor — bu ibora
+                phrase_dict[key] = val
+            else:                   # bo'sh joy yo'q — bu bitta so'z
+                single_dict[key] = val
 ```
 
-Xotiraga yuklangandan so'ng lug'at `DICTIONARY` global o'zgaruvchisida saqlanadi. Har bir tarjima so'rovida bu o'zgaruvchidan foydalaniladi — ma'lumotlar bazasiga qayta murojaat qilinmaydi. Bu yondashuv tarjima tezligini sezilarli darajada oshiradi.
-
+Yuklash jarayonida har bir yozuv kalitida bo'sh joy bor-yo'qligiga qarab ikkita global o'zgaruvchidan biriga joylashtiriladi: bir so'zli yozuvlar `single_dict` ga, ko'p so'zli iboralar esa `phrase_dict` ga saqlanadi. Iboralarni alohida ajratish 1-bosqichdagi ko'p so'zli qidiruvni samarali bajarish imkonini beradi. Har bir tarjima so'rovida shu ikki o'zgaruvchidan foydalaniladi — ma'lumotlar bazasiga qayta murojaat qilinmaydi. Bu yondashuv tarjima tezligini sezilarli darajada oshiradi.
 ### 3.3.3. Besh bosqichli tarjima algoritmi
 
 Tarjima jarayonining asosiy mexanizmi `translate_text()` funksiyasida amalga oshiriladi. Kiritilgan matn avval so'zlarga bo'linadi, so'ngra har bir so'z (yoki so'z birikmasi) besh bosqichli algoritm orqali qayta ishlanadi. Har bir bosqich oldingi bosqich muvaffaqiyatsiz bo'lganida ishga tushadi — agar so'z biron bosqichda tarjima qilinsa, keyingi bosqichlarga o'tilmaydi.
@@ -132,9 +136,8 @@ Birinchi navbatda kiritilgan matnda ko'p so'zli sheva iboralari qidiriladi. Lug'
 So'z normalizatsiya qilinib, lug'atda to'g'ridan-to'g'ri qidiriladi:
 
 ```python
-normalized = _normalize(word.lower())
-if normalized in DICTIONARY:
-    return _match_case(word, DICTIONARY[normalized])
+if normalized in single_dict:
+    return _match_case(word, single_dict[normalized])
 ```
 
 Masalan, `äldin` so'zi normalizatsiya orqali standart ko'rinishga keltiriladi va lug'atda mos yozuv topilsa, adabiy muqobili qaytariladi. Bu bosqich lug'atda mavjud bo'lgan barcha so'zlarni to'g'ri tarjima qiladi.
@@ -164,8 +167,8 @@ for dialect_suffix, literary_suffix in sorted(
 ):
     if normalized.endswith(dialect_suffix):
         root = normalized[:-len(dialect_suffix)]
-        if root in DICTIONARY:
-            return _match_case(word, DICTIONARY[root] + literary_suffix)
+    if root in single_dict:
+            return _match_case(word, single_dict[root] + literary_suffix)
 ```
 
 **5-bosqich: O'zgartirilmay qoldirish.**
@@ -181,7 +184,7 @@ Flask ilovasi `/translate` marshrutida tarjima API sini ta'minlaydi. Brauzer Jav
 def translate():
     data = request.get_json()
     text = data.get('text', '')
-    result = translate_text(text)
+    result = translate(text)
     return jsonify({'translation': result['translation'],
                     'found': result['found'],
                     'not_found': result['not_found']})
