@@ -162,7 +162,7 @@ Xom OCR natijalaridan foydalanish mumkin bo'lgan lug'at yozuvlarini olish uchun 
 
 **Manba ustunligini ta'minlash.** `merge_dicts.py` skripti orqali uchta manba birlashtirildi. Ushbu skript har bir so'zni avval asosiy manbadan (output.csv) qidiradi; topilmagan taqdirda qo'shimcha manbadan (fromexcel.csv) oladi. Bu yondashuv ilmiy jihatdan eng ishonchli manba — "Xorazm shevalari lug'ati" (2024) — ning ustunligini kafolatlaydi.
 
-Tozalash jarayonlari yakunida lug'at taxminan 3486 ta yozuvni o'z ichiga olgan holda `output_clean.csv` faylida saqlandi. Har bir yozuv ikki asosiy ustundan iborat: `sheva` (Xorazm sheva so'zi) va `adabiy` (adabiy o'zbek tili muqobili).
+Har bir yozuv ikki asosiy ustundan iborat: Title (Xorazm sheva so'zi) va Meaning (adabiy o'zbek tili muqobili).
 
 ### 2.2.4. Ma'lumotlarni tizimlashtirish tamoyillari
 
@@ -170,11 +170,11 @@ Lug'at ma'lumotlarini tizimlashtirish — ya'ni turli manbalardan olingan hetero
 
 Tizimlashtirishda quyidagi tamoyillarga rioya qilindi:
 
-**Bitta kalit — bitta yozuv tamoyili.** Lug'atda har bir sheva so'zi (kalit) uchun bitta yozuv saqlanadi. Ko'p ma'noli so'zlar uchun muqobil matnda vergul orqali ajratilgan holda yoziladi: masalan, *äkä* so'zining muqobili `aka, ota` tarzida beriladi.
+**Bitta kalit — bitta yozuv tamoyili.** Lug'atda har bir sheva so'zi (kalit) uchun bitta yozuv saqlanadi. Masalan, aka so'zining muqobili ota tarzida beriladi
 
-**Ko'p so'zli iboralar alohida yozuv sifatida.** Xorazm shevalarida uchraydigan ko'p so'zli sheva iboralari — masalan, *sırt berdi*, *äyqaş-uyqaş* — alohida kalit sifatida lug'atga kiritildi. Tarjima mexanizmida ko'p so'zli iboralar birinchi navbatda qidiriladi, shundan keyingina alohida so'zlar uchun qidirish amalga oshiriladi.
+**Ko'p so'zli iboralar alohida yozuv sifatida.** Xorazm shevalarida uchraydigan ko'p so'zli sheva iboralari — masalan, bari gal (bu yoqqa kel), bodom barmoq (ko'rsatgich barmoq) — alohida kalit sifatida lug'atga kiritildi.
 
-**Manbaga ishora saqlanishi.** Har bir yozuvning qaysi manbadan olinganligini bilish texnik takomillashtirish va kelajakda audit qilish uchun muhim. Shu sababli birlashtirish jarayonida har bir yozuvga manba belgisi (`source` ustuni) qo'shildi: `norbayeva2024`, `fromexcel`, `xorazmcha` kabi qiymatlar bilan.
+**Yakuniy tuzilmaning soddaligi.** Yakuniy `output_clean.csv` faylida ortiqcha metama'lumotlar saqlanmaydi — fayl faqat ikki ustundan iborat: Title va Meaning. Bu soddalik lug'atni yuklash hamda qidirish tezligini oshiradi va faylni qo'lda tahrirlashni osonlashtiradi. Manbalar ustunligi esa birlashtirish bosqichida hisobga olinadi (asosiy manba ustun turadi).
 
 **Fonetik jihatdan o'xshash variantlarni birlashtirish.** Bir xil so'zning turli imloviy variantlari — masalan, *dîlânmaq* va *dilonmoq* — bir yozuv ostida birlashtirildi. Normalizatsiya funksiyasi bu variantlarni qidiruv jarayonida ham bir xil deb qabul qiladi.
 

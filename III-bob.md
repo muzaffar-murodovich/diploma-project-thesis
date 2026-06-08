@@ -29,7 +29,7 @@ Uchinchi manba sifatida S. Ernazarov tomonidan yaratilgan "Xorazmcha" mobil ilov
 
 Xom OCR natijalaridan foydalanish mumkin bo'lgan lug'at yozuvlarini olish uchun bir necha bosqichli tozalash jarayoni o'tkazildi. Ushbu jarayon Python tilida yozilgan maxsus `csv_clean.py` skripti orqali amalga oshirildi.
 
-**Normalizatsiya.** `_normalize()` funksiyasi turli manbalar va OCR natijalarida turlicha yozilgan bir xil belgilarni standart ko'rinishga keltiradi. Masalan, `ä`, `a̋`, `à` kabi variantlar yagona standart belgi ostida birlashtiriladi; bo'shliqlar va ko'rinmas belgilar o'chiriladi; harflar kichik harfga o'tkaziladi. Bu normalizatsiya faqat lug'at yaratish bosqichida emas, balki tarjima so'rovini qayta ishlashda ham qo'llaniladi — shunday qilib foydalanuvchi bir xil so'zni har xil yozganda ham to'g'ri natija oladi.
+**Normalizatsiya.** `translator.py` dagi `_normalize()`  funksiyasi so'zni qidiruvga tayyorlaydi: harflarni kichik harfga o'tkazadi va tutuq belgisi (`ʻ`, `'`) variantlarini olib tashlaydi. Shu tariqa foydalanuvchi `qoʻl` deb yozsa ham, `qol` deb yozsa ham bir xil yozuv topiladi. Bu normalizatsiya ham lug'at yuklash, ham tarjima so'rovini qayta ishlash bosqichida bir xil qo'llaniladi. Manbalardagi diakritik belgilarni (`ä`, `ö`, `ü` kabi) sodda o'zbek lotin harflariga aylantirish esa alohida tayyorlash bosqichida amalga oshirilgan.
 
 **Dublikatlarni o'chirish.** Birlashtirish jarayonida turli manbalardan bir xil sheva so'zi bir necha marta kirib qolishi mumkin. `csv_clean.py` skripti barcha yozuvlarni alifbo tartibida saralab, dublikatlarni aniqlaydi va kamroq ma'lumotli nusxani o'chiradi. Manba ustunligi tamoyiliga ko'ra "Xorazm shevalari lug'ati" (2024) dagi talqin har doim ustun hisoblanadi.
 
@@ -125,11 +125,11 @@ def _load_dictionary(path: str) -> None:
 Yuklash jarayonida har bir yozuv kalitida bo'sh joy bor-yo'qligiga qarab ikkita global o'zgaruvchidan biriga joylashtiriladi: bir so'zli yozuvlar `single_dict` ga, ko'p so'zli iboralar esa `phrase_dict` ga saqlanadi. Iboralarni alohida ajratish 1-bosqichdagi ko'p so'zli qidiruvni samarali bajarish imkonini beradi. Har bir tarjima so'rovida shu ikki o'zgaruvchidan foydalaniladi — ma'lumotlar bazasiga qayta murojaat qilinmaydi. Bu yondashuv tarjima tezligini sezilarli darajada oshiradi.
 ### 3.3.3. Besh bosqichli tarjima algoritmi
 
-Tarjima jarayonining asosiy mexanizmi `translate_text()` funksiyasida amalga oshiriladi. Kiritilgan matn avval so'zlarga bo'linadi, so'ngra har bir so'z (yoki so'z birikmasi) besh bosqichli algoritm orqali qayta ishlanadi. Har bir bosqich oldingi bosqich muvaffaqiyatsiz bo'lganida ishga tushadi — agar so'z biron bosqichda tarjima qilinsa, keyingi bosqichlarga o'tilmaydi.
+Tarjima jarayonining asosiy mexanizmi `translate()` funksiyasida amalga oshiriladi. Kiritilgan matn avval so'zlarga bo'linadi, so'ngra har bir so'z (yoki so'z birikmasi) besh bosqichli algoritm orqali qayta ishlanadi. Har bir bosqich oldingi bosqich muvaffaqiyatsiz bo'lganida ishga tushadi — agar so'z biron bosqichda tarjima qilinsa, keyingi bosqichlarga o'tilmaydi.
 
 **1-bosqich: Ko'p so'zli iboralarni qidirish.**
 
-Birinchi navbatda kiritilgan matnda ko'p so'zli sheva iboralari qidiriladi. Lug'atda `äyqaş-uyqaş`, `sırt berdi` kabi iboralar alohida kalit sifatida saqlanadi. Algoritm joriy so'zdan boshlab keyingi 2–3 so'zni birga olib, lug'atda mavjudligini tekshiradi. Agar topilsa, ushbu so'zlar guruhini birgalikda tarjima qiladi va natijada alohida so'z sifatida emas, ibora sifatida ko'rsatadi. Bu bosqich ko'p so'zli sheva iboralarini to'g'ri tarjima qilish imkonini beradi.
+Lug'atda `bari gal` (bu yoqqa kel), `bodom barmoq` (ko'rsatgich barmoq) kabi iboralar alohida kalit sifatida saqlanadi.
 
 **2-bosqich: To'g'ridan-to'g'ri moslik (exact match).**
 
@@ -140,7 +140,7 @@ if normalized in single_dict:
     return _match_case(word, single_dict[normalized])
 ```
 
-Masalan, `äldin` so'zi normalizatsiya orqali standart ko'rinishga keltiriladi va lug'atda mos yozuv topilsa, adabiy muqobili qaytariladi. Bu bosqich lug'atda mavjud bo'lgan barcha so'zlarni to'g'ri tarjima qiladi.
+Masalan, `adik` so'zi lug'atda to'g'ridan-to'g'ri topiladi va uning adabiy muqobili etik qaytariladi. Bu bosqich lug'atda mavjud bo'lgan barcha so'zlarni to'g'ri tarjima qiladi.
 
 **3-bosqich: Fe'l morfologik tahlili.**
 
@@ -155,7 +155,7 @@ for dialect_suffix, literary_suffix in VERB_SUFFIX_MAP.items():
             return _match_case(word, lit_root + literary_suffix)
 ```
 
-Masalan, `dîlânmaqda` so'zi qayta ishlanganda suffiks `-mqda` ajratiladi, ildiz `dîlân` lug'atda `yig'la` sifatida topiladi, natijada `yig'lamoqda` qaytariladi.
+Masalan, `galaman` so'zi qayta ishlanganda `-aman` qo'shimchasi ajratiladi, qolgan gal ildizi `VERB_ROOT_MAP` da `kel` sifatida topiladi va `-aman` qo'shimchasi `VERB_SUFFIX_MAP` orqali `-moqman` ga aylantiriladi; natijada `kelmoqman` qaytariladi.
 
 **4-bosqich: Ot suffikslarini ajratish.**
 
