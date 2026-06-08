@@ -176,8 +176,6 @@ Tizimlashtirishda quyidagi tamoyillarga rioya qilindi:
 
 **Yakuniy tuzilmaning soddaligi.** Yakuniy `output_clean.csv` faylida ortiqcha metama'lumotlar saqlanmaydi — fayl faqat ikki ustundan iborat: Title va Meaning. Bu soddalik lug'atni yuklash hamda qidirish tezligini oshiradi va faylni qo'lda tahrirlashni osonlashtiradi. Manbalar ustunligi esa birlashtirish bosqichida hisobga olinadi (asosiy manba ustun turadi).
 
-**Fonetik jihatdan o'xshash variantlarni birlashtirish.** Bir xil so'zning turli imloviy variantlari — masalan, *dîlânmaq* va *dilonmoq* — bir yozuv ostida birlashtirildi. Normalizatsiya funksiyasi bu variantlarni qidiruv jarayonida ham bir xil deb qabul qiladi.
-
 ---
 
 ## 2.3. Shevaga oid mavjud dasturiy yechimlar va ularning tahlili
@@ -192,7 +190,7 @@ Hozirda mavjud bo'lgan Xorazm shevasi bilan bevosita bog'liq dasturiy yechimlar 
 
 Ilovaning kuchli tomonlari quyidagilardan iborat: birinchidan, foydalanuvchilarga oflayn rejimda, internetga ulanmasdan ishlash imkonini berishi; ikkinchidan, kirill va lotin yozuvlarini qo'llab-quvvatlashi; uchinchidan, qidiruv funksiyasining mavjudligi; to'rtinchidan, ilovaga yangi so'zlarni qo'shish imkonini beruvchi administrativ panel mavjudligi.
 
-Biroq ilova bir qator muhim cheklovlardan xoli emas. Eng asosiy kamchilik shundaki, ilovada diakritik belgilardan foydalanilmagan. Natijada bir-biridan fonetik jihatdan farq qiluvchi so'zlar bitta yozuv ostida birlashtirib yuborilgan yoki talaffuzi noaniq holda qoldirilgan. Masalan, *ā* (cho'ziq a) va *a* (qisqa a) farqini ilovadagi yozuvlardan aniqlash mumkin emas. Bu holat leksikografik aniqlik nuqtai nazaridan jiddiy kamchilik hisoblanadi.
+Biroq ilova bir qator muhim cheklovlardan xoli emas. Eng asosiy kamchilik — morfologik tahlilning yo'qligi: agar foydalanuvchi so'zning qo'shimcha bilan kelgan shaklini — masalan, `galaman` — kiritsa, ilova uni tahlil qila olmaydi va natija topmaydi. Shuningdek, ilova so'z birikmalarini yaxlit birlik sifatida qidira olmaydi va matn (gap) darajasidagi tarjimani qo'llab-quvvatlamaydi. Bundan tashqari, geografik hududiy belgilar ko'rsatilmagan, ya'ni so'zning qaysi tumanda qo'llanishini bilib bo'lmaydi.
 
 Bundan tashqari, ilova so'z birikmalarini yaxlit birlik sifatida qidira olmaydi — faqat alohida so'zlar qidiriladi. Morfologik tahlil funksiyasi yo'q: agar foydalanuvchi so'zning qo'shimcha bilan kelgan shaklini — masalan, *dîlânmaqda* — kiritsa, ilova natija topa olmaydi. Shuningdek, geografik hududiy belgilar ham ko'rsatilmagan, ya'ni so'zning Xorazm viloyatining qaysi tumanida qo'llanishi ilovadan bilib bo'lmaydi.
 

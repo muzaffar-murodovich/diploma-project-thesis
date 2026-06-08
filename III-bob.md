@@ -167,7 +167,7 @@ for dialect_suffix, literary_suffix in sorted(
 ):
     if normalized.endswith(dialect_suffix):
         root = normalized[:-len(dialect_suffix)]
-    if root in single_dict:
+        if root in single_dict:
             return _match_case(word, single_dict[root] + literary_suffix)
 ```
 
